@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Furnace Temperature Prediction Results</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        .container {
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 30px;
+            background-color: #ffffff;
+            box-shadow: 0 0 20px rgba(0,0,0,0.05);
+            border-radius: 12px;
+        }
+        .header {
+            text-align: center;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        h1, h2 {
+            color: #2c3e50;
+            font-weight: 300;
+            margin: 0;
+        }
+        h1 {
+            font-size: 28px;
+        }
+        h2 {
+            font-size: 24px;
+            margin-top: 20px;
+            margin-bottom: 15px;
+        }
+        .result-group {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            padding: 12px;
+            background-color: #ecf0f1;
+            border-radius: 6px;
+            transition: background-color 0.3s;
+        }
+        .result-group:hover {
+            background-color: #e0e6e8;
+        }
+        .result-label {
+            font-weight: 500;
+            color: #34495e;
+        }
+        .result-value {
+            color: #2980b9;
+            font-weight: 700;
+        }
+        .back-button {
+            display: block;
+            width: 200px;
+            margin: 30px auto 0;
+            padding: 12px 24px;
+            background-color: #3498db;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 18px;
+            transition: background-color 0.3s;
+        }
+        .back-button:hover {
+            background-color: #2980b9;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Furnace Temperature Prediction Results</h1>
+        </div>
+        <h2>Input Parameters:</h2>
+        {% for key, value in inputs.items() %}
+        <div class="result-group">
+            <span class="result-label">
+                {% if key == 'gsm_a' %}
+                    GSM-A
+                {% elif key == 'tph' %}
+                    TPH
+                {% else %}
+                    {{ key|capitalize }}
+                {% endif %}:
+            </span>
+            <span class="result-value">{{ value }}</span>
+        </div>
+        {% endfor %}
+        <h2>Predictions:</h2>
+        {% for key, value in result.items() %}
+        <div class="result-group">
+            <span class="result-label">{{ key }}:</span>
+            <span class="result-value">
+                {{ value }} {% if key == 'Speed' %}mpm{% else %}°C{% endif %}
+            </span>
+        </div>
+        {% endfor %}
+        <a href="{{ url_for('home_page') }}" class="back-button">Back to Input</a>
+    </div>
+</body>
+</html>

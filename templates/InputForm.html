@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Furnace Temperature Prediction</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        .container {
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 30px;
+            background-color: #ffffff;
+            box-shadow: 0 0 20px rgba(0,0,0,0.05);
+            border-radius: 12px;
+        }
+        .header {
+            text-align: center;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        h1 {
+            color: #2c3e50;
+            font-size: 28px;
+            font-weight: 300;
+            margin: 0;
+        }
+        .form-group {
+            margin-bottom: 25px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #34495e;
+        }
+        input[type="number"] {
+            width: calc(100% - 22px);
+            padding: 10px;
+            border: 1px solid #bdc3c7;
+            border-radius: 6px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        input[type="number"]:focus {
+            border-color: #3498db;
+            outline: none;
+        }
+        .unit {
+            display: inline-block;
+            margin-left: 10px;
+            color: #7f8c8d;
+        }
+        .button-group {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+        input[type="submit"], button {
+            background-color: #3498db;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 18px;
+            transition: background-color 0.3s;
+            width: 45%;
+        }
+        input[type="submit"]:hover, button:hover {
+            background-color: #2980b9;
+        }
+        button {
+            background-color: #e74c3c;
+        }
+        button:hover {
+            background-color: #c0392b;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Furnace Temperature Prediction</h1>
+        </div>
+        <form action="{{ url_for('predict') }}" method="post">
+            <div class="form-group">
+                <label for="width">Width:</label>
+                <input type="number" id="width" name="width" step="0.01" required value="{{ inputs.width }}">
+                <span class="unit">mm</span>
+            </div>
+            <div class="form-group">
+                <label for="thickness">Thickness:</label>
+                <input type="number" id="thickness" name="thickness" step="0.01" required value="{{ inputs.thickness }}">
+                <span class="unit">mm</span>
+            </div>
+            <div class="form-group">
+                <label for="gsm_a">GSM-A:</label>
+                <input type="number" id="gsm_a" name="gsm_a" step="0.01" required value="{{ inputs.gsm_a }}">
+            </div>
+            <div class="form-group">
+                <label for="tph">TPH:</label>
+                <input type="number" id="tph" name="tph" step="0.01" required value="{{ inputs.tph }}">
+            </div>
+            <div class="form-group">
+                <label for="hardness">Hardness:</label>
+                <input type="number" id="hardness" name="hardness" step="0.01" required value="{{ inputs.hardness }}">
+            </div>
+            <div class="button-group">
+                <input type="submit" value="Predict">
+                <button type="button" onclick="resetForm()">Reset</button>
+            </div>
+        </form>
+    </div>
+    <script>
+        function resetForm() {
+            fetch("{{ url_for('reset') }}", {method: 'POST'})
+                .then(() => {
+                    document.querySelectorAll('input[type="number"]').forEach(input => {
+                        input.value = '';
+                    });
+                });
+        }
+    </script>
+</body>
+</html>
