@@ -11,7 +11,6 @@ def home_page():
         'width': '',
         'thickness': '',
         'gsm_a': '',
-        'tph': '',
         'hardness': ''
     })
     return render_template("InputForm.html", inputs=inputs)
@@ -24,7 +23,6 @@ def predict():
             'width': float(request.form['width']),
             'thickness': float(request.form['thickness']),
             'gsm_a': float(request.form['gsm_a']),
-            'tph': float(request.form['tph']),
             'hardness': float(request.form['hardness'])
         }
         
@@ -35,7 +33,7 @@ def predict():
         result = predict_furnace_temps(**inputs)
 
         # Round the results to 2 decimal places
-        result = {k: round(v, 2) for k, v in result.items()}
+        result = {k: round(v) for k, v in result.items()}
 
         return render_template("Output.html", result=result, inputs=inputs)
 

@@ -89,13 +89,16 @@
             <span class="result-label">
                 {% if key == 'gsm_a' %}
                     GSM-A
-                {% elif key == 'tph' %}
-                    TPH
                 {% else %}
                     {{ key|capitalize }}
                 {% endif %}:
             </span>
-            <span class="result-value">{{ value }}</span>
+            <span class="result-value">
+                {{ value }}
+                {% if key == 'width' or key == 'thickness' %}
+                    mm
+                {% endif %}
+            </span>
         </div>
         {% endfor %}
         <h2>Predictions:</h2>
@@ -103,7 +106,14 @@
         <div class="result-group">
             <span class="result-label">{{ key }}:</span>
             <span class="result-value">
-                {{ value }} {% if key == 'Speed' %}mpm{% else %}°C{% endif %}
+                {{ value }} 
+                {% if key == 'Speed' %}
+                    mpm
+                {% elif key == 'TPH' %}
+                    tons/hour
+                {% elif key != 'TPH' %}
+                    °C
+                {% endif %}
             </span>
         </div>
         {% endfor %}
